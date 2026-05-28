@@ -92,7 +92,7 @@ export function renderWW2(DATA) {
   // ---- build DOM ----
   const root = d3.create("div").attr("class", "ww2-app");
   const wrap = root.append("div").attr("class", "wrap");
-  wrap.append("p").attr("class", "eyebrow").text("World War II · 1939–1945");
+  wrap.append("p").attr("class", "eyebrow").text("World War II, 1939–1945");
   wrap.append("h1").text("Who suffered most depends on how you count.");
   wrap.append("p").attr("class", "dek").text("Two views of the same loss. Above, every nation plotted by scale and by proportion at once — drag a box to focus. Below, a ranking that rearranges itself when you change the measure.");
 
