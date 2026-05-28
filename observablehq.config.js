@@ -1,11 +1,11 @@
 // See https://observablehq.com/framework/config for documentation.
 export default {
   // The app’s title; used in the sidebar and webpage titles.
-  title: "Csc477 Asgn5",
+  title: "Who Suffered The Most In WW2?",
 
   // The pages and sections in the sidebar.
   pages: [
-    {name: "WWII Casualties", path: "/ww2"}
+    
   ],
 
   // Content to add to the head of the page: favicon + the two fonts the chart uses.
@@ -18,7 +18,7 @@ export default {
   // https://<username>.github.io/<repo>/  — must match your repo name EXACTLY
   // (case-sensitive), with leading and trailing slashes. Remove this line when
   // running `npm run dev` locally if the dev server 404s, then restore for deploy.
-  base: "/CSC477-ASGN5/",
+  base: "/csc477-asgn5/",
 
   // The path to the source root.
   root: "src",
