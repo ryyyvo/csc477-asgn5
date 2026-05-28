@@ -172,8 +172,6 @@ export function renderWW2(DATA) {
     sQuad.selectAll("*").remove();
     sQuad.append("text").attr("class", "axis-title").attr("x", sM.left + iw).attr("y", sM.top + ih + 38).attr("text-anchor", "end").text("Total deaths (log scale) →");
     sQuad.append("text").attr("class", "axis-title").attr("transform", `translate(14,${sM.top + 6}) rotate(-90)`).attr("text-anchor", "end").text("← Share of 1939 population lost");
-    sQuad.append("text").attr("class", "quad").attr("x", sM.left + 6).attr("y", sM.top + 14).text("small nations, gutted proportionally");
-    sQuad.append("text").attr("class", "quad").attr("x", sM.left + iw - 6).attr("y", sM.top + 14).attr("text-anchor", "end").text("devastated by every measure");
 
     sDots.selectAll("circle").data(DATA, d => d.country).join("circle")
       .attr("class", "dot").attr("cx", d => sx(d.total_deaths)).attr("cy", d => sy(d.pct_1939))
