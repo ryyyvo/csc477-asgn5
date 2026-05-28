@@ -3,21 +3,22 @@ export default {
   // The app’s title; used in the sidebar and webpage titles.
   title: "Csc477 Asgn5",
 
-  // The pages and sections in the sidebar. If you don’t specify this option,
-  // all pages will be listed in alphabetical order. Listing pages explicitly
-  // lets you organize them into sections and have unlisted pages.
-  // pages: [
-  //   {
-  //     name: "Examples",
-  //     pages: [
-  //       {name: "Dashboard", path: "/example-dashboard"},
-  //       {name: "Report", path: "/example-report"}
-  //     ]
-  //   }
-  // ],
+  // The pages and sections in the sidebar.
+  pages: [
+    {name: "WWII Casualties", path: "/ww2"}
+  ],
 
-  // Content to add to the head of the page, e.g. for a favicon:
-  head: '<link rel="icon" href="observable.png" type="image/png" sizes="32x32">',
+  // Content to add to the head of the page: favicon + the two fonts the chart uses.
+  head: '<link rel="icon" href="observable.png" type="image/png" sizes="32x32">'
+      + '<link rel="preconnect" href="https://fonts.googleapis.com">'
+      + '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+      + '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,800;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">',
+
+  // REQUIRED for GitHub Pages project sites served at
+  // https://<username>.github.io/<repo>/  — must match your repo name EXACTLY
+  // (case-sensitive), with leading and trailing slashes. Remove this line when
+  // running `npm run dev` locally if the dev server 404s, then restore for deploy.
+  base: "/CSC477-ASGN5/",
 
   // The path to the source root.
   root: "src",
