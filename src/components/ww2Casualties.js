@@ -9,7 +9,7 @@ const CSS = `
 .ww2-app * { box-sizing: border-box; }
 .ww2-app .wrap { max-width: 1020px; margin: 0 auto; }
 .ww2-app .eyebrow { font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--oxblood); font-weight:600; margin:0 0 10px; }
-.ww2-app h1 { font-family:"Spectral",serif; font-weight:800; font-size:clamp(28px,4.6vw,48px); line-height:1.03; margin:0 0 12px; letter-spacing:-.01em; }
+.ww2-app h1 { font-family:"Spectral",serif; font-weight:800; font-size:clamp(28px,4.6vw,48px); line-height:1.03; margin:0 0 12px; letter-spacing:-.01em; color:var(--oxblood); }
 .ww2-app .dek { font-family:"Spectral",serif; font-size:clamp(15px,2vw,19px); font-style:italic; color:var(--ink-soft); max-width:62ch; margin:0 0 24px; line-height:1.45; }
 .ww2-app .section-head { font-family:"Spectral",serif; font-weight:600; font-size:19px; margin:24px 0 2px; }
 .ww2-app .section-sub { font-size:13px; color:var(--ink-soft); margin:0 0 12px; line-height:1.5; }
@@ -48,10 +48,10 @@ const CSS = `
 .ww2-app .bar { cursor:pointer; }
 .ww2-app .ghost { fill:var(--ink); }
 .ww2-app footer { margin-top:30px; padding-top:14px; border-top:1px solid var(--rule); font-size:12px; color:var(--ink-soft); line-height:1.5; }
-.ww2-app .tip { position:fixed; pointer-events:none; opacity:0; z-index:50; background:var(--ink); color:var(--paper); padding:11px 13px; border-radius:3px; font-size:12.5px; max-width:250px; line-height:1.5; transition:opacity .12s; box-shadow:0 8px 26px rgba(33,28,23,.34); }
-.ww2-app .tip .t-name { font-family:"Spectral",serif; font-weight:600; font-size:14px; display:block; margin-bottom:4px; }
-.ww2-app .tip .t-big { font-variant-numeric:tabular-nums; }
-.ww2-app .tip .t-sub { color:#c9beac; font-size:11.5px; margin-top:4px; }
+.ww2-app .ww2-tip { position:fixed; pointer-events:none; opacity:0; z-index:50; background:var(--ink); color:var(--paper); padding:11px 13px; border-radius:3px; font-size:12.5px; max-width:250px; line-height:1.5; transition:opacity .12s; box-shadow:0 8px 26px rgba(33,28,23,.34); }
+.ww2-app .ww2-tip .t-name { font-family:"Spectral",serif; font-weight:600; font-size:14px; display:block; margin-bottom:4px; }
+.ww2-app .ww2-tip .t-big { font-variant-numeric:tabular-nums; }
+.ww2-app .ww2-tip .t-sub { color:#c9beac; font-size:11.5px; margin-top:4px; }
 .ww2-app .selection { stroke:var(--ink); stroke-opacity:.6; fill:var(--ink); fill-opacity:.05; }
 `;
 
@@ -65,15 +65,15 @@ function injectStyles() {
 
 const MEASURES = {
   total:    { label: "Total deaths",        acc: d => d.total_deaths,    fmt: v => d3.format(",")(Math.round(v)),
-              note: "By sheer numbers, the giants dominate: the Soviet Union and China lost more people than the next dozen nations combined." },
+              note: "By sheer numbers, the Soviet Union and China lost more people than the next dozen nations combined." },
   pct:      { label: "% of 1939 population", acc: d => d.pct_1939,        fmt: v => d3.format(".2f")(v) + "%",
-              note: "Against their pre-war populations, small occupied nations rise to the top — Poland and the Baltic states lost a devastating share of their people." },
+              note: "From their pre-war populations, small occupied nations such as Poland and the Baltic states lost a devastating share of their people." },
   military: { label: "Military deaths",      acc: d => d.military_deaths, fmt: v => d3.format(",")(Math.round(v)),
-              note: "Counting only soldiers reshuffles the list, lifting nations whose armies bore the brunt of the fighting." },
+              note: "Counting only soldiers reshuffles the list toward countries who fought the hardest." },
   civilian: { label: "Civilian deaths",      acc: d => d.civilian_deaths, fmt: v => d3.format(",")(Math.round(v)),
-              note: "For most of the hardest-hit nations, civilian deaths far outnumber military ones — a war waged on populations." },
+              note: "For most of the hardest-hit nations, civilian deaths far outnumber military ones." },
   civshare: { label: "Civilian share",       acc: d => d.civilian_share,  fmt: v => d3.format(".0%")(v),
-              note: "The fraction of each nation's dead who were civilians — from soldiers' wars at the bottom to near-total civilian catastrophes at the top." },
+              note: "The percentage of each nation's dead who were civilians." },
 };
 const ANCHORS = { "Soviet Union": [-9, 4, "end"], "China": [-9, 4, "end"], "Poland": [9, -5, "start"],
   "Germany": [9, 4, "start"], "Nauru": [9, 4, "start"], "Greece": [9, 4, "start"], "United States": [-9, 4, "end"] };
@@ -93,22 +93,22 @@ export function renderWW2(DATA) {
   const root = d3.create("div").attr("class", "ww2-app");
   const wrap = root.append("div").attr("class", "wrap");
   wrap.append("p").attr("class", "eyebrow").text("World War II, 1939–1945");
-  wrap.append("h1").text("Who suffered most depends on how you count.");
-  wrap.append("p").attr("class", "dek").text("Two views of the same loss. Above, every nation plotted by scale and by proportion at once — drag a box to focus. Below, a ranking that rearranges itself when you change the measure.");
+  wrap.append("h1").text("WWII Losses by Country: Who Suffered Most?");
+  wrap.append("p").attr("class", "dek").text("Above, every nation plotted by scale and by proportion. Drag a box to focus. Below, a bar chart that rearranges itself when you change the measure.");
 
-  const tip = root.append("div").attr("class", "tip");
+  const tip = root.append("div").attr("class", "ww2-tip");
 
   // scatter panel
   const sp = wrap.append("div").attr("class", "panel");
-  sp.append("div").attr("class", "section-head").text("The whole field");
-  sp.append("p").attr("class", "section-sub").html('Each circle is a country — placed by total deaths (left to right) and by the share of its 1939 population lost (bottom to top), sized by pre-war population, coloured by civilian share. <span class="hint">Hover to inspect · drag to select · selection filters the ranking below.</span>');
+  sp.append("div").attr("class", "section-head").text("The Proportion Of Population Loss Against Total Deaths");
+  sp.append("p").attr("class", "section-sub").html('Each circle is a country — placed by total deaths (left to right) and by the share of its 1939 population lost (bottom to top), sized by pre-war population, coloured by civilian share. <div class="hint">Hover to inspect. Drag to select. Selection filters the ranking below.</div>');
   const sSvg = sp.append("svg");
   const clearBtn = sp.append("div").style("margin-top", "8px").append("button").attr("class", "clear-btn").text("✕ Clear selection");
 
   // bars panel
   const bp = wrap.append("div").attr("class", "panel").style("margin-top", "26px");
-  bp.append("div").attr("class", "section-head").text("The ranking");
-  bp.append("p").attr("class", "section-sub").text("Switch the measure and the order rearranges — faint marks show where each country stood a moment before.");
+  bp.append("div").attr("class", "section-head").text("The Ranking");
+  bp.append("p").attr("class", "section-sub").text("Switch the measure and the order rearranges.");
   const ctl = bp.append("div").attr("class", "controls");
   const segWrap = ctl.append("div"); segWrap.append("div").attr("class", "ctl-label").text("Measure");
   const seg = segWrap.append("div").attr("class", "segmented");
