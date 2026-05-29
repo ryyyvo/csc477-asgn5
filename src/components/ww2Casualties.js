@@ -1,7 +1,7 @@
 import * as d3 from "npm:d3";
 
 const CSS = `
-.ww2-app { --paper:#f3efe6; --paper-edge:#e9e3d6; --ink:#211c17; --ink-soft:#5c5346;
+.ww2-app { --paper:#f3efe6; --paper-edge:#e9e3d6; --ink:#211c17; --ink-soft:#2e2922;
   --rule:#d7cfbf; --oxblood:#7c2128; --steel:#59707a;
   background: radial-gradient(120% 70% at 50% -8%, #f7f4ec 0%, var(--paper) 55%, var(--paper-edge) 100%);
   color: var(--ink); font-family: "IBM Plex Sans", system-ui, sans-serif;
@@ -101,7 +101,7 @@ export function renderWW2(DATA) {
   // scatter panel
   const sp = wrap.append("div").attr("class", "panel");
   sp.append("div").attr("class", "section-head").text("The Proportion Of Population Loss Against Total Deaths");
-  sp.append("p").attr("class", "section-sub").html('Each circle is a country — placed by total deaths (left to right) and by the share of its 1939 population lost (bottom to top), sized by pre-war population, coloured by civilian share. <div class="hint">Hover to inspect. Drag to select. Selection filters the ranking below.</div>');
+  sp.append("p").attr("class", "section-sub").html('Each circle is a country — placed by total deaths (left to right) and by the share of its 1939 population lost (bottom to top), sized by pre-war population, colored by civilian share. <div class="hint">Hover to inspect. Drag to select. Selection filters the ranking below.</div>');
   const sSvg = sp.append("svg");
   const clearBtn = sp.append("div").style("margin-top", "8px").append("button").attr("class", "clear-btn").text("✕ Clear selection");
 
@@ -125,17 +125,18 @@ export function renderWW2(DATA) {
   const countNote = bp.append("div").attr("class", "count-note");
   const bSvg = bp.append("svg");
 
-  wrap.append("footer").html('Source: Wikipedia, <em>World War II casualties</em> (“Total deaths by country”). Figures are midpoints of published ranges; hover for the low–high estimate. Holocaust deaths are counted within civilian totals.');
+  wrap.append("footer").html('Source: Wikipedia, <a href="https://en.wikipedia.org/wiki/World_War_II_casualties" target="_blank" rel="noopener"><em>World War II casualties</em></a> (“Total deaths by country”). Figures are midpoints of published ranges; hover for the low–high estimate. Holocaust deaths are counted within civilian totals.<br><br>Inspired by Neil Halloran’s <a href="https://www.fallen.io/ww2/" target="_blank" rel="noopener"><em>The Fallen of World War II</em></a> (2015).');
 
   // ---- shared helpers ----
   function showTip(event, d) {
     const cs = d.civilian_share == null ? "—" : d3.format(".0%")(d.civilian_share);
-    const rng = d.is_range ? `<div class="t-sub">range ${d3.format(",")(d.total_low)}–${d3.format(",")(d.total_high)}</div>` : "";
+    const rng = d.is_range ? `<div class="t-sub">Range: ${d3.format(",")(d.total_low)}–${d3.format(",")(d.total_high)}</div>` : "";
     tip.html(
       `<span class="t-name">${d.country}${d.note ? ` <span class="t-sub" style="font-style:italic">(${d.note})</span>` : ""}</span>` +
       `<span class="t-big">Total deaths: <strong>${d3.format(",")(d.total_deaths)}</strong></span>${rng}` +
-      `<div class="t-sub">${d3.format(".2f")(d.pct_1939)}% of population · ${cs} civilian` +
-      (d.population_1939 ? ` · pop. ${d3.format(".2s")(d.population_1939)}` : "") + `</div>`
+      `<div class="t-sub">${d3.format(".2f")(d.pct_1939)}% of total population</div>` +
+      `<div class="t-sub">${cs} civilian deaths</div>` +
+      (d.population_1939 ? `<div class="t-sub">population: ${d3.format(".2s")(d.population_1939)}</div>` : "")
     );
     const pad = 16, w = 250; let left = event.clientX + pad;
     if (left + w > window.innerWidth) left = event.clientX - w - pad;
@@ -252,7 +253,7 @@ export function renderWW2(DATA) {
     const yOf = i => bM.top + i * rowH + rowH / 2;
 
     measureNote.text(m.note);
-    countNote.text(`${rows.length} of ${DATA.length} countries shown${selected ? " · filtered by your selection above" : ""} · figures are range midpoints`);
+    countNote.text(`${rows.length} of ${DATA.length} countries shown${selected ? ". Filtered by your selection above" : ""}. Figures are range midpoints.`);
 
     const T = bSvg.transition().duration(800).ease(d3.easeCubicInOut);
 
