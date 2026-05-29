@@ -125,7 +125,7 @@ export function renderWW2(DATA) {
   const countNote = bp.append("div").attr("class", "count-note");
   const bSvg = bp.append("svg");
 
-  wrap.append("footer").html('Source: Wikipedia, <a href="https://en.wikipedia.org/wiki/World_War_II_casualties" target="_blank" rel="noopener"><em>World War II casualties</em></a> (“Total deaths by country”). Figures are midpoints of published ranges; hover for the low–high estimate. Holocaust deaths are counted within civilian totals.<br><br>Inspired by Neil Halloran’s <a href="https://www.fallen.io/ww2/" target="_blank" rel="noopener"><em>The Fallen of World War II</em></a> (2015).');
+  wrap.append("footer").html('Source: Wikipedia, <a href="https://en.wikipedia.org/wiki/World_War_II_casualties" target="_blank" rel="noopener"><em>World War II casualties</em></a> (“Total deaths by country”). Figures are midpoints of published ranges; hover for the low–high estimate. Holocaust deaths are counted within civilian totals.<br><br>Inspired by Neil Halloran’s <a href="https://www.fallen.io/ww2/" target="_blank" rel="noopener"><em>The Fallen of World War II</em></a> (2015). ');
 
   // ---- shared helpers ----
   function showTip(event, d) {
